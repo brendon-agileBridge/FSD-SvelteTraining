@@ -1,21 +1,21 @@
 <script>
-    import {createEventDispatcher, onMount} from "svelte";
-    import {incrementBy} from "../store/totals.js";
+    import {createEventDispatcher} from "svelte";
+    import {incrementBy, pageAlreadyRendered, total} from "../store/totals.js";
     import { withPrevious } from 'svelte-previous';
 
     export let initCount = 0;
 
     const dispatch = createEventDispatcher();
     
-    const [count, prevCount] = withPrevious(0);
+    const [count, prevCount] = withPrevious(initCount);
+    
 
-    onMount(() => {
-        count.set(initCount);
-    });
-
+  
     count.subscribe(value => {
-        dispatch("countChanged", value - ($prevCount??0));
-        incrementBy(value - ($prevCount??0));
+        if(!$pageAlreadyRendered || $prevCount !== null){ 
+            dispatch("countChanged", value - ($prevCount ?? 0));
+            incrementBy(value - ($prevCount ?? 0));
+        }
     });
 
     function reset() {
@@ -45,4 +45,6 @@
 <input type="number" bind:value={$count}/>
 <br>
 <button on:click={() => reset()}>Reset</button>
+<br>
+{$total}
 <br>
