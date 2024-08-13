@@ -1,5 +1,6 @@
 <script>
     import {onMount} from "svelte";
+    import {page} from "$app/stores";
 
     /**
      * @type {string|undefined}
@@ -14,8 +15,8 @@
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 
 <nav>
-<a href="/" class:active={currentPath == '/'}>Home</a>
-<a href="/totals" class:active={currentPath == '/totals'}>Totals</a>
+<a href="/" class:active={$page.url.pathname === ('/')}>Home</a>
+<a href="/totals" class:active={$page.url.pathname === ('/totals')}>Totals</a>
 </nav>
 <slot></slot>
 
