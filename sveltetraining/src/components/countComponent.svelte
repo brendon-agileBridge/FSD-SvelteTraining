@@ -10,12 +10,14 @@
     onMount(() => {
         count = initCount;
     });
+
+    $: dispatch('countChanged', count);
 </script>
 
 <br>
 <label>Count is: {count}</label>
 <br>
-<input type="number" bind:value={count} on:change={(event) => dispatch('countChanged',count)}/>
+<input type="number" bind:value={count}/>
 <br>
 <button on:click={() => {count = 0}}>Reset</button>
 <br>
