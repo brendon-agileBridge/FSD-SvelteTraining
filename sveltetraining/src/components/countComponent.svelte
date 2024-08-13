@@ -1,17 +1,26 @@
 <script>
     import {createEventDispatcher, onMount} from "svelte";
+    import {goto} from "$app/navigation";
 
     export let initCount = 0;
 
     const dispatch = createEventDispatcher();
 
-    let count = 0;
+    /**
+     * @type {number|undefined}
+     */
+    let count = undefined;
 
     onMount(() => {
         count = initCount;
     });
 
-    $: dispatch('countChanged', count);
+    $: {
+        if(count !== undefined && count !== initCount) {
+            dispatch('countChanged', count);
+            goto('/totals');
+        }
+    }
 
     function reset() {
         count = 0;
