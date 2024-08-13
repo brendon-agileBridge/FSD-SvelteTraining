@@ -7,7 +7,7 @@
      * @param {CustomEvent} val
      */
     function countUpdated(val){
-        alert(val.detail);
+        console.log(val.detail);
     }
 
 </script>
