@@ -3,8 +3,7 @@
 
 <label>Count is: {count}</label>
 <br>
-Alternatively Count is: 
-<span contenteditable="false" bind:textContent={count}></span>
+<input type="number" bind:value={count}/>
 
 <script>
     let count = 0;
