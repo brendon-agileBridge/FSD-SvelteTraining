@@ -1,14 +1,5 @@
 <script>
-    import {onMount} from "svelte";
     import {page} from "$app/stores";
-
-    /**
-     * @type {string|undefined}
-     */
-    let currentPath;
-    onMount(() => {
-        currentPath = window.location.pathname;
-    });
 </script>
 
 <h1>Welcome to SvelteKit</h1>
