@@ -1,29 +1,25 @@
 <script>
     import {createEventDispatcher, onMount} from "svelte";
-    import {goto} from "$app/navigation";
+    import {incrementBy} from "../store/totals.js";
+    import { withPrevious } from 'svelte-previous';
 
     export let initCount = 0;
 
     const dispatch = createEventDispatcher();
-
-    /**
-     * @type {number|undefined}
-     */
-    let count = undefined;
+    
+    const [count, prevCount] = withPrevious(0);
 
     onMount(() => {
-        count = initCount;
+        count.set(initCount);
     });
 
-    $: {
-        if(count !== undefined && count !== initCount) {
-            dispatch('countChanged', count);
-            goto('/totals');
-        }
-    }
+    count.subscribe(value => {
+        dispatch("countChanged", value - ($prevCount??0));
+        incrementBy(value - ($prevCount??0));
+    });
 
     function reset() {
-        count = 0;
+        count.set(0);
     }
 
     $: letter = function(){
@@ -32,7 +28,7 @@
         let len = ordZ - ordA + 1;
 
         let s = "";
-        let n = count;
+        let n = $count;
         while(n >= 0) {
             s = String.fromCharCode(n % len + ordA) + s;
             n = Math.floor(n / len) - 1;
@@ -42,11 +38,11 @@
 </script>
 
 <br>
-<label>Count is: {count}</label>
+<label>Count is: {$count}</label>
 <br>
 <label>letter is: {letter()}</label>
 <br>
-<input type="number" bind:value={count}/>
+<input type="number" bind:value={$count}/>
 <br>
 <button on:click={() => reset()}>Reset</button>
 <br>
