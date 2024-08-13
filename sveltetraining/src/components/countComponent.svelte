@@ -12,6 +12,10 @@
     });
 
     $: dispatch('countChanged', count);
+
+    function reset() {
+        count = 0;
+    }
 </script>
 
 <br>
@@ -19,5 +23,5 @@
 <br>
 <input type="number" bind:value={count}/>
 <br>
-<button on:click={() => {count = 0}}>Reset</button>
+<button on:click={() => reset()}>Reset</button>
 <br>
